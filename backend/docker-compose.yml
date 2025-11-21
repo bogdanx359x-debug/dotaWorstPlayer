@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .               
+    container_name: dota-worst-player-checker
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_ADDR
+      - REDIS_PASSWORD
+
+  redis:
+    image: redis:7-alpine
+    container_name: my-redis
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "StrongRedisPass123"]
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+
+volumes:
+  redis-data:
